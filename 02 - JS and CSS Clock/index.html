@@ -19,7 +19,7 @@
 
   <style>
     html {
-      background: #018DED url(https://unsplash.it/1500/1000?image=881&blur=5);
+      background: #018DED url(https://images.unsplash.com/flagged/photo-1593005510329-8a4035a7238f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHllbGxvd3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60);
       background-size: cover;
       font-family: 'helvetica neue';
       text-align: center;
@@ -43,11 +43,6 @@
       margin: 50px auto;
       position: relative;
       padding: 2rem;
-      box-shadow:
-        0 0 0 4px rgba(0,0,0,0.1),
-        inset 0 0 0 3px #EFEFEF,
-        inset 0 0 10px black,
-        0 0 10px rgba(0,0,0,0.2);
     }
 
     .clock-face {
@@ -65,16 +60,42 @@
       top: 50%;
       transform-origin: 100%;
       transform: rotate(90deg);
+      transition: all 0.05s;
+      transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
+    }
+
+    .second-hand {
+      height: 4px;
+    }
+
+    .hour-hand {
+      background: red;
     }
 
   </style>
 
   <script>
-    // Get the correct elements (minute, second, hour clocks)
-    // Get the current time
-    // Add an event listener on the document using the time ?
-    // When that's triggered, move the correct elements by the degrees needed
+    const hourHand = document.querySelector(".hour-hand");
+    const minHand = document.querySelector(".min-hand");
+    const secondHand = document.querySelector(".second-hand");
 
+    function setSeconds (e) {
+      const today = new Date ();
+      const seconds = today.getSeconds();
+      const secondsDegrees = ((seconds / 60) * 360) + 90;
+
+      const minutes = today.getMinutes();
+      const minutesDegrees = ((minutes / 60) * 360) + 90;
+
+      const hours = today.getHours();
+      const hoursDegrees = ((hours / 12) * 360) + 90;
+
+      secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
+      minHand.style.transform = `rotate(${minutesDegrees}deg)`;
+      hourHand.style.transform = `rotate(${hoursDegrees}deg)`;
+    }
+
+    setInterval(setSeconds, 1000)
 
   </script>
 </body>
